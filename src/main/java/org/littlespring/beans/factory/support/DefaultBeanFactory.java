@@ -5,6 +5,8 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.littlespring.beans.BeanDefinition;
+import org.littlespring.beans.factory.BeanCreationException;
+import org.littlespring.beans.factory.BeanDefinitionStoreException;
 import org.littlespring.beans.factory.BeanFactory;
 import org.littlespring.utils.ClassUtils;
 import org.littlespring.utils.ConcurrentReferenceHashMap;
@@ -50,7 +52,7 @@ public class DefaultBeanFactory implements BeanFactory {
             }
 
         } catch (DocumentException e) {
-            throw new RuntimeException(e);
+            throw new BeanDefinitionStoreException("IO Exception parsing XML document .  ");
         }
     }
 
@@ -61,20 +63,17 @@ public class DefaultBeanFactory implements BeanFactory {
 
     @Override
     public Object getBean(String beanId) {
-        BeanDefinition db = this.getBeanDefinition(beanId);
-        String beanClassName = db.getBeanClassName();
+        BeanDefinition bd = this.getBeanDefinition(beanId);
+        if (null == bd) {
+            throw new BeanCreationException("Bean Definition does not exist ");
+        }
+        String beanClassName = bd.getBeanClassName();
         ClassLoader cl = ClassUtils.getDefaultClassLoader();
         try {
             Class<?> clz = cl.loadClass(beanClassName);
-            try {
-                return clz.newInstance();
-            } catch (InstantiationException e) {
-                throw new RuntimeException(e);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            return clz.newInstance();
+        } catch (Exception e) {
+            throw new BeanCreationException("create bean for " + beanClassName + "  failed ", e);
         }
     }
 }

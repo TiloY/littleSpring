@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.littlespring.beans.BeanDefinition;
 import org.littlespring.beans.factory.BeanCreationException;
+import org.littlespring.beans.factory.BeanDefinitionStoreException;
 import org.littlespring.beans.factory.BeanFactory;
 import org.littlespring.beans.factory.support.DefaultBeanFactory;
 import org.littlespring.service.v1.PetStoreService;
@@ -46,6 +47,17 @@ public class BeanFactoryTest {
         }
 
         Assert.fail("expect BeanCreationException ");
+    }
+
+    @Test
+    public void testInvalidXML() {
+        try {
+            new DefaultBeanFactory("xxx.xml");
+        } catch (BeanDefinitionStoreException ex) {
+          return;
+        }
+
+        Assert.fail("expect BeanDefinitionStoreException ");
     }
 
 }
