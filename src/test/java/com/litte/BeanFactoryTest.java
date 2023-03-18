@@ -1,6 +1,7 @@
 package com.litte;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.littlespring.beans.BeanDefinition;
 import org.littlespring.beans.factory.BeanCreationException;
@@ -20,6 +21,14 @@ import static org.junit.Assert.assertNotNull;
  **/
 public class BeanFactoryTest {
 
+    DefaultBeanFactory factory = null ;
+    XmlBeanDefinitionReader reader = null ;
+    @Before
+    public void setUp(){
+         factory = new DefaultBeanFactory();
+         reader = new XmlBeanDefinitionReader(factory);
+    }
+
     /**
      * 第一个测试用例 、
      * - 给定一个xml 配置文件（内含bean的定义），能够从中获取：
@@ -30,8 +39,7 @@ public class BeanFactoryTest {
     public void testGetBean() {
         // 1.  根基配置文件 获取bean 的定义
         // "petStore-v1.xml"
-        DefaultBeanFactory factory = new DefaultBeanFactory();
-        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
+
         reader.loadBeanDefinition("petStore-v1.xml");
 
         BeanDefinition db = factory.getBeanDefinition("petStore");
@@ -43,8 +51,6 @@ public class BeanFactoryTest {
     @Test
     public void testInvalidBean() {
         // 1.  根基配置文件 获取bean 的定义
-        DefaultBeanFactory factory = new DefaultBeanFactory();
-        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
         reader.loadBeanDefinition("petStore-v1.xml");
         try {
             factory.getBean("invalidBean");
@@ -58,8 +64,6 @@ public class BeanFactoryTest {
     @Test
     public void testInvalidXML() {
         try {
-            DefaultBeanFactory factory = new DefaultBeanFactory();
-            XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
             reader.loadBeanDefinition("xxx.xml");
         } catch (BeanDefinitionStoreException ex) {
           return;
