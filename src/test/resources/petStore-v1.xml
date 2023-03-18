@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<!--
+  - Root application context definition for a test app that uses JDBC.
+  - Does not depend on web infrastructure or any web-specific classes!
+  -->
+
+<beans>
+
+    <!-- ========================= GENERAL DEFINITIONS ========================= -->
+
+    <!--
+      - The message source for this context, loaded from localized "messages_xx" files
+      - in the classpath, i.e. "messages.properties" or "messages_de.properties".
+      - Can be used to support internationalization of test reports
+      - "getMessage" calls to this context will use this source.
+      - Child contexts can have their own message sources, inheriting all messages from this
+      - source, being able to define new messages and override ones defined in this source.
+      -->
+    <bean id="petStore" class="org.littlespring.service.v1.PetStoreService">
+    </bean>
+    <bean id="invalidBean" class="xxx.xxx">
+    </bean>
+
+
+</beans>
+
