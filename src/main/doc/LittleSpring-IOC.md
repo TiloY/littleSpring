@@ -20,3 +20,9 @@ BeanFactory 是提供给我们的用户来使用的client ,那么我们暴露一
 ![img.png](img/5.类图2-将DefaultBeanFactory拆分.png)
  - 接口最小化 这个类知道的越少越好 
  - xmlBeanDefinitionReader 它只知道我可以获取BeanDefinition 还可以注册 BeanDefinition 但是它并不知道getBean 的含义是什么 
+
+# 提取 ApplicationContext 接口
+![img.png](img/6.类图3-将ctx.png)
+
+# 提取 Resource 接口
+![img.png](img/7.Resource.png)
