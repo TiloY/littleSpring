@@ -1,4 +1,4 @@
-package org.littespring.context.support;
+package org.littlespring.context.support;
 
 import org.littlespring.core.io.FileSystemResource;
 import org.littlespring.core.io.Resource;

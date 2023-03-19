@@ -36,3 +36,13 @@ BeanFactory 是提供给我们的用户来使用的client ,那么我们暴露一
  - 单例 
 # SingletonBeanRegistry 接口提供实现 singleton的能力 
 ![img.png](img/10.SingletonBeanRegistry.png)
+
+# 11. 设置属性 
+![img.png](img/11.设置属性.png)
+ - TDD思路 
+ - 1. 针对接口写 "high level "的测试用例 暂时不用pass ,可以保持 fail 状态 
+    -例如ApplicationContextTestV2
+ - 2. 针对一些子任务写测试用例 、
+   -BeanDefinitionTestV2
+   -BeanDefinitionValueResolverTest 
+ - 3. 把子任务生成的代码，类组合起来。让 high level 的测试用例pass 

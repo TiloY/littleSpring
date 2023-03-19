@@ -17,10 +17,15 @@
       - Child contexts can have their own message sources, inheriting all messages from this
       - source, being able to define new messages and override ones defined in this source.
       -->
-    <bean id="petStore" class="org.littlespring.service.v1.PetStoreService">
+    <bean id="petStore" class="org.littlespring.service.v2.PetStoreService">
+        <property name="accountDao" ref ="accountDao"/>
+        <property name="itemDao" ref ="itemDao"/>
     </bean>
 
-    <bean id="invalidBean" class="xxx.xxx">
+    <bean id="accountDao" class="org.littlespring.dao.v2.AccountDao">
+    </bean>
+
+    <bean id="itemDao" class="org.littlespring.dao.v2.ItemDao">
     </bean>
 
 

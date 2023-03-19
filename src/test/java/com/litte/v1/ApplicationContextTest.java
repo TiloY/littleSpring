@@ -1,9 +1,9 @@
-package com.litte;
+package com.litte.v1;
 
 import org.junit.Test;
-import org.littespring.context.ApplicationContext;
-import org.littespring.context.support.ClassPathApplicationContext;
-import org.littespring.context.support.FileSystemXmlApplicationContext;
+import org.littlespring.context.ApplicationContext;
+import org.littlespring.context.support.ClassPathApplicationContext;
+import org.littlespring.context.support.FileSystemXmlApplicationContext;
 import org.littlespring.service.v1.PetStoreService;
 
 import static org.junit.Assert.assertNotNull;

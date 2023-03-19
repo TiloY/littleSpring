@@ -1,4 +1,4 @@
-package com.litte;
+package com.litte.v1;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
