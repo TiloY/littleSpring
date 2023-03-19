@@ -9,7 +9,6 @@ import org.littlespring.beans.factory.BeanDefinitionStoreException;
 import org.littlespring.beans.factory.support.BeanDefinitionRegistry;
 import org.littlespring.beans.factory.support.GenericBeanDefinition;
 import org.littlespring.core.io.Resource;
-import org.littlespring.utils.ClassUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +18,7 @@ public class XmlBeanDefinitionReader {
 
     private static final String ID_ATTRIBUTE = "id";
     private static final String CLASS_ATTRIBUTE = "class";
-    private static final String SCOPE_ATTRIBUTE = "singleton";
+    private static final String SCOPE_ATTRIBUTE = "scope";
 
     private BeanDefinitionRegistry registry;
 
@@ -28,49 +27,14 @@ public class XmlBeanDefinitionReader {
         this.registry = registry;
     }
 
-    /**
-     * load config  generic BeanDefinition
-     *
-     * @param config 解析配置文件  这里主要说 xml
-     */
-    public void loadBeanDefinition(String config) {
-        // dom4j解析xml文件
-        ClassLoader cl = ClassUtils.getDefaultClassLoader();
-        InputStream is = cl.getResourceAsStream(config);
-        SAXReader reader = new SAXReader();
-        try {
-            Document doc = reader.read(is);
-            Element root = doc.getRootElement();
-
-            Iterator it = root.elementIterator();
-            while (it.hasNext()) {
-                Element ele = (Element) it.next();
-                String id = ele.attributeValue(ID_ATTRIBUTE);
-                String beanClassName = ele.attributeValue(CLASS_ATTRIBUTE);
-                BeanDefinition bd = new GenericBeanDefinition(id, beanClassName);
-                if(ele.attributeValue(SCOPE_ATTRIBUTE) != null){
-                    bd.setScope(ele.attributeValue(SCOPE_ATTRIBUTE));
-                }
-                this.registry.registerBeanDefinition(id, bd);
-            }
-
-        } catch (DocumentException e) {
-            throw new BeanDefinitionStoreException("IO Exception parsing XML document .  ");
-        }
-    }
-
 
     public void loadBeanDefinitions(Resource resource) {
 
         InputStream is = null;
         try {
             is = resource.getInputStream();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
-        SAXReader reader = new SAXReader();
-        try {
+            SAXReader reader = new SAXReader();
             Document doc = reader.read(is);
             Element root = doc.getRootElement();
 
@@ -83,8 +47,16 @@ public class XmlBeanDefinitionReader {
                 this.registry.registerBeanDefinition(id, bd);
             }
 
-        } catch (DocumentException e) {
+        } catch (Exception e) {
             throw new BeanDefinitionStoreException("IO Exception parsing XML document .  ");
+        } finally {
+            if (null != is) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

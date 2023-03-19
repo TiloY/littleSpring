@@ -5,6 +5,7 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+        TDDDemoTest.class,
         ApplicationContextTest.class,
         BeanFactoryTest.class,
         ResourceTest.class

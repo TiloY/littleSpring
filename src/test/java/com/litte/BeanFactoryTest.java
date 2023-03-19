@@ -8,6 +8,7 @@ import org.littlespring.beans.factory.BeanCreationException;
 import org.littlespring.beans.factory.BeanDefinitionStoreException;
 import org.littlespring.beans.factory.support.DefaultBeanFactory;
 import org.littlespring.beans.factory.xml.XmlBeanDefinitionReader;
+import org.littlespring.core.io.ClassPathResource;
 import org.littlespring.service.v1.PetStoreService;
 
 import static org.junit.Assert.*;
@@ -39,8 +40,8 @@ public class BeanFactoryTest {
     public void testGetBean() {
         // 1.  根基配置文件 获取bean 的定义
         // "petStore-v1.xml"
-
-        reader.loadBeanDefinition("petStore-v1.xml");
+        ClassPathResource resource = new ClassPathResource("petStore-v1.xml");
+        reader.loadBeanDefinitions(resource);
 
         BeanDefinition bd = factory.getBeanDefinition("petStore");
 
@@ -60,7 +61,8 @@ public class BeanFactoryTest {
     @Test
     public void testInvalidBean() {
         // 1.  根基配置文件 获取bean 的定义
-        reader.loadBeanDefinition("petStore-v1.xml");
+        ClassPathResource resource = new ClassPathResource("petStore-v1.xml");
+        reader.loadBeanDefinitions(resource);
         try {
             factory.getBean("invalidBean");
         } catch (BeanCreationException ex) {
@@ -73,7 +75,8 @@ public class BeanFactoryTest {
     @Test
     public void testInvalidXML() {
         try {
-            reader.loadBeanDefinition("xxx.xml");
+            ClassPathResource resource = new ClassPathResource("xxx.xml");
+            reader.loadBeanDefinitions(resource);
         } catch (BeanDefinitionStoreException ex) {
             return;
         }
