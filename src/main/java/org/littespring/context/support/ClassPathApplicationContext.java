@@ -11,7 +11,7 @@ public class ClassPathApplicationContext extends AbstractApplicationContext {
 
     @Override
     protected Resource getResourceByPatch(String patch) {
-        return new ClassPathResource(patch);
+        return new ClassPathResource(patch,this.getBeanClassLoader());
     }
 
 }

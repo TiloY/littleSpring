@@ -31,3 +31,8 @@ BeanFactory 是提供给我们的用户来使用的client ,那么我们暴露一
 ![img.png](img/8.模板方法抽取Resource.png)
 # classloader 
 ![img.png](img/9.提供设置classLoader.png)
+# Scope 
+ Spring 默认的实现就是 singleton 
+ - 单例 
+# SingletonBeanRegistry 接口提供实现 singleton的能力 
+![img.png](img/10.SingletonBeanRegistry.png)

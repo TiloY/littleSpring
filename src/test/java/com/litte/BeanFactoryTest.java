@@ -10,8 +10,7 @@ import org.littlespring.beans.factory.support.DefaultBeanFactory;
 import org.littlespring.beans.factory.xml.XmlBeanDefinitionReader;
 import org.littlespring.service.v1.PetStoreService;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * @Description :
@@ -21,12 +20,13 @@ import static org.junit.Assert.assertNotNull;
  **/
 public class BeanFactoryTest {
 
-    DefaultBeanFactory factory = null ;
-    XmlBeanDefinitionReader reader = null ;
+    DefaultBeanFactory factory = null;
+    XmlBeanDefinitionReader reader = null;
+
     @Before
-    public void setUp(){
-         factory = new DefaultBeanFactory();
-         reader = new XmlBeanDefinitionReader(factory);
+    public void setUp() {
+        factory = new DefaultBeanFactory();
+        reader = new XmlBeanDefinitionReader(factory);
     }
 
     /**
@@ -42,10 +42,19 @@ public class BeanFactoryTest {
 
         reader.loadBeanDefinition("petStore-v1.xml");
 
-        BeanDefinition db = factory.getBeanDefinition("petStore");
-        assertEquals("org.littlespring.service.v1.PetStoreService", db.getBeanClassName());
+        BeanDefinition bd = factory.getBeanDefinition("petStore");
+
+        assertTrue(bd.isSingleton());
+        assertFalse(bd.isPrototype());
+        assertEquals(BeanDefinition.SCOPE_DEFAULT, bd.getScope());
+
+        assertEquals("org.littlespring.service.v1.PetStoreService", bd.getBeanClassName());
         PetStoreService petStore = (PetStoreService) factory.getBean("petStore");
         assertNotNull(petStore);
+
+        PetStoreService petStore1 = (PetStoreService) factory.getBean("petStore");
+        assertTrue(petStore.equals(petStore1));
+
     }
 
     @Test
@@ -55,7 +64,7 @@ public class BeanFactoryTest {
         try {
             factory.getBean("invalidBean");
         } catch (BeanCreationException ex) {
-          return;
+            return;
         }
 
         Assert.fail("expect BeanCreationException ");
@@ -66,7 +75,7 @@ public class BeanFactoryTest {
         try {
             reader.loadBeanDefinition("xxx.xml");
         } catch (BeanDefinitionStoreException ex) {
-          return;
+            return;
         }
 
         Assert.fail("expect BeanDefinitionStoreException ");
