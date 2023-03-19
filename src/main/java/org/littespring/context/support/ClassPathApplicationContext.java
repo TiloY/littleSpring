@@ -1,20 +1,17 @@
 package org.littespring.context.support;
 
-import org.littespring.context.ApplicationContext;
-import org.littlespring.beans.factory.support.DefaultBeanFactory;
-import org.littlespring.beans.factory.xml.XmlBeanDefinitionReader;
+import org.littlespring.core.io.ClassPathResource;
+import org.littlespring.core.io.Resource;
 
-public class ClassPathApplicationContext implements ApplicationContext {
-   private DefaultBeanFactory factory   = null ;
+public class ClassPathApplicationContext extends AbstractApplicationContext {
 
-    public ClassPathApplicationContext(String config) {
-        this.factory  = new DefaultBeanFactory();
-        XmlBeanDefinitionReader reader  = new XmlBeanDefinitionReader(factory);
-        reader.loadBeanDefinition(config);
+    public ClassPathApplicationContext(String configFile) {
+        super(configFile);
     }
 
     @Override
-    public Object getBean(String beanId) {
-        return factory.getBean(beanId);
+    protected Resource getResourceByPatch(String patch) {
+        return new ClassPathResource(patch);
     }
+
 }

@@ -8,8 +8,10 @@ import org.littlespring.beans.BeanDefinition;
 import org.littlespring.beans.factory.BeanDefinitionStoreException;
 import org.littlespring.beans.factory.support.BeanDefinitionRegistry;
 import org.littlespring.beans.factory.support.GenericBeanDefinition;
+import org.littlespring.core.io.Resource;
 import org.littlespring.utils.ClassUtils;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
@@ -54,4 +56,31 @@ public class XmlBeanDefinitionReader {
     }
 
 
+    public void loadBeanDefinitions(Resource resource) {
+
+        InputStream is = null;
+        try {
+            is = resource.getInputStream();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        SAXReader reader = new SAXReader();
+        try {
+            Document doc = reader.read(is);
+            Element root = doc.getRootElement();
+
+            Iterator it = root.elementIterator();
+            while (it.hasNext()) {
+                Element ele = (Element) it.next();
+                String id = ele.attributeValue(ID_ATTRIBUTE);
+                String beanClassName = ele.attributeValue(CLASS_ATTRIBUTE);
+                BeanDefinition bd = new GenericBeanDefinition(id, beanClassName);
+                this.registry.registerBeanDefinition(id, bd);
+            }
+
+        } catch (DocumentException e) {
+            throw new BeanDefinitionStoreException("IO Exception parsing XML document .  ");
+        }
+    }
 }

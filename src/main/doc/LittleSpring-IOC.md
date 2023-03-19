@@ -26,3 +26,8 @@ BeanFactory 是提供给我们的用户来使用的client ,那么我们暴露一
 
 # 提取 Resource 接口
 ![img.png](img/7.Resource.png)
+# 使用模板方法 抽取 Resource  接口的实现  
+ - 定义一个算法的骨架 
+![img.png](img/8.模板方法抽取Resource.png)
+# classloader 
+![img.png](img/9.提供设置classLoader.png)
